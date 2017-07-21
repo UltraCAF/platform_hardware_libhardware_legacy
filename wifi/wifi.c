@@ -287,22 +287,9 @@ int wifi_load_driver()
         return wifi_fst_load_driver();
     }
 
-#ifdef SAMSUNG_WIFI
-#ifdef WIFI_DRIVER_MODULE_AP_ARG
-    if (wifi_mode == 1) {
-        snprintf(module_arg2, sizeof(module_arg2), DRIVER_MODULE_AP_ARG);
-    } else {
-        snprintf(module_arg2, sizeof(module_arg2), DRIVER_MODULE_ARG);
-    }
-#else
-    char* type = get_samsung_wifi_type();
-    snprintf(module_arg2, sizeof(module_arg2), "%s%s", DRIVER_MODULE_ARG, type == NULL ? "" : type);
-#endif
-
-    if (insmod(DRIVER_MODULE_PATH, module_arg2) < 0) {
-#else
-    if (insmod(DRIVER_MODULE_PATH, DRIVER_MODULE_ARG) < 0) {
-#endif
+    if (insmod(DRIVER_MODULE_PATH, DRIVER_MODULE_ARG) < 0)
+        return -1;
+    wifi_driver_module_path = 1;
 
 #endif
 #ifdef WIFI_DRIVER_STATE_CTRL_PARAM
