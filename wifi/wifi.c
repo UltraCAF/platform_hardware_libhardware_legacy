@@ -267,6 +267,10 @@ int wifi_load_driver()
         return wifi_fst_load_driver();
     }
 
+    if (insmod(DRIVER_MODULE_PATH, DRIVER_MODULE_ARG) < 0)
+        return -1;
+    wifi_driver_module_path = 1;
+
     if (strcmp(FIRMWARE_LOADER,"") == 0) {
         /* usleep(WIFI_DRIVER_LOADER_DELAY); */
         property_set(DRIVER_PROP_NAME, "ok");
